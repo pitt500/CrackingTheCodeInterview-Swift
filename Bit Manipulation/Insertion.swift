@@ -1,25 +1,16 @@
 class BitInsertionSolution {
   func insertBits(n: Int, m: Int, i: Int, j: Int) -> Int {
-    var newNumber = n
-    var bitPosition = i
+    guard i < j && i >= 0 && j < 32 else { return 0 }
 
-    for bit in 0...(j - i) {
-      let isBit1 = getBit(num: m, bit: bit)
-      newNumber = udpdateBit(num: newNumber, bit: bitPosition,
-                             isBit1: isBit1)
-      bitPosition += 1
-    }
+    let allOnes = ~0
+    let left = allOnes << (j + 1)
+    let right = 1 << (i - 1)
 
-    return newNumber
-  }
-  
-  private func getBit(num: Int, bit: Int) -> Bool {
-    return num & (1 << bit) != 0
-  }
+    let mask = left | right
+    
+    let nCleared = n & mask
+    let mShifted = m << i
 
-  private func udpdateBit(num: Int, bit: Int, isBit1: Bool) -> Int {
-    let value = isBit1 ? 1 : 0
-    let mask = ~(1 << bit)
-    return (num & mask) | (value << bit)
+    return nCleared | mShifted
   }
 }
