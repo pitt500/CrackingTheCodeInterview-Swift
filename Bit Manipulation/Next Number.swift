@@ -137,3 +137,77 @@ class BetterNextNumberSolution {
   }
 
 }
+
+//Best
+class BestNextNumberSolution {
+  func findNextNumber(num: Int) -> (min: Int, max: Int) {
+    return (getMin(num), getMax(num))
+  }
+
+  func getMin(_ num: Int) -> Int {
+    guard num > 1 else { return 0 }
+
+    let bitInfo = countBitsAndFindFirstNonTrailingOne(num: num)
+    let onePosition = bitInfo.numOnes + bitInfo.numZeros
+
+    if onePosition > (Int.bitWidth - 1)  || onePosition <= 0 {
+      return -1
+    }
+
+    return num - (1 << bitInfo.numOnes) - (1 << (bitInfo.numZeros - 1)) + 1
+  }
+
+  func getMax(_ num: Int) -> Int {
+    let bitInfo = countBitsAndFindFirstNonTrailingZero(num: num)
+    let zeroPosition = bitInfo.numOnes + bitInfo.numZeros
+
+    if zeroPosition > (Int.bitWidth - 1)  || zeroPosition <= 0 {
+      return -1
+    }
+
+    return num + (1 << bitInfo.numZeros) + (1 << (bitInfo.numOnes - 1)) - 1
+  }
+
+  func countBitsAndFindFirstNonTrailingZero(num: Int)
+    -> (numOnes: Int, numZeros: Int) {
+    var n = num
+    var counterOnes = 0
+    var counterZeros = 0
+
+    while n > 0 {
+      if n%2 == 1 {
+        counterOnes += 1
+      } else if counterOnes > 0 {
+        return (counterOnes, counterZeros)
+      } else {
+        counterZeros += 1
+      }
+      n >>= 1
+    }
+
+    return (counterOnes, counterZeros)
+  }
+
+  func countBitsAndFindFirstNonTrailingOne(num: Int)
+    -> (numOnes: Int, numZeros: Int) {
+      var n = num
+      var counterOnes = 0
+      var counterZeros = 0
+
+      while n & 1 == 1 {
+        counterOnes += 1
+        n >>= 1
+      }
+
+      if n == 0 {
+        return (-1, -1)
+      }
+
+      while n & 1 == 0 && n != 0 {
+        counterZeros += 1
+        n >>= 1
+      }
+      return (counterOnes, counterZeros)
+  }
+
+}
