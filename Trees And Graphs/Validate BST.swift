@@ -1,5 +1,17 @@
-class ValidateBST {
+class TreeNode {
+  var value: Int
+  var left: TreeNode?
+  var right: TreeNode?
+  var parent: TreeNode? = nil
 
+  init(value: Int, left: TreeNode? = nil, right: TreeNode? = nil) {
+    self.value = value
+    self.left = left
+    self.right = right
+  }
+}
+
+class ValidateBST {
   private func isBinarySearchTree(_ root: TreeNode?,
                                   lastPrinted: inout Int?) -> Bool {
     guard let root = root else { return true }
@@ -21,7 +33,7 @@ class ValidateBST {
 
     return true
   }
-  
+
   func isBinarySearchTree(_ root: TreeNode?) -> Bool {
     var lastPrinted: Int?
     return isBinarySearchTree(root, lastPrinted: &lastPrinted)
