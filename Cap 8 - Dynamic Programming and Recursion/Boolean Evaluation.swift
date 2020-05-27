@@ -137,6 +137,10 @@ class MemoBooleanEvaluation {
 let expression = "1^1^1^1^1^1^1^1"
 let sol = BasicBooleanEvaluation()
 sol.run(expression: expression, result: false)
+//Total parenthesis combination: 429
+//Total time: 7.936459064483643 seconds
 
 let sol2 = MemoBooleanEvaluation()
 sol2.run(expression: expression, result: false)
+// Total parenthesis combination: 429
+// Total time: 0.02569901943206787 seconds
